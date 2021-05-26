@@ -59,7 +59,7 @@ cas.upload.frame(s, sas_iris, casOut=list(caslib="open_source_iris", name="iris_
 # Load the sampling actionset from CAS
 loadActionSet(s, 'sampling')
 cas.sampling.srs(s,
-                 table=list(caslib="open_source_iris", name="iris_from_r"),
+                 table=list(caslib="open_source_iris", name="iris"),
                  sampPct=70,
                  partind=TRUE,
                  output=list(casOut=list(name='temp_iris',replace=TRUE), copyvars='ALL'))
@@ -67,9 +67,8 @@ cas.sampling.srs(s,
 # Verify the partitioning
 # Load the fedsql actionset
 loadActionSet(s, 'fedsql')
-# Create two CASTable instance and references
-using SQL filters
-train <- defCasTable(s, 'temp_iris', where="_PartInd_=1") # 1
+# Create two CASTable instance and references using SQL filters
+train <- defCasTable(s, 'temp_iris', where="_PartInd_=1")
 valid <- defCasTable(s, 'temp_iris', where="_PartInd_=0")
 # Confirm that filtered rows show the same counts
 
@@ -97,6 +96,29 @@ cas.decisionTree.dtreeScore(valid,
                             assessonerow = TRUE,
                             casOut = list(name = 'dt_scored', replace = T)
 )
+
+################################################################
+### Create model in R to be duplicated in Viya VDMML
+sas_iris_train <- data.frame(
+  to.casDataFrame(
+    defCasTable(s, 'temp_iris', where="_PartInd_=1")))
+sas_iris_validate <- data.frame(
+  to.casDataFrame(
+    defCasTable(s, 'temp_iris', where="_PartInd_=0")))
+
+
+library(randomForest)
+data_train <- sas_iris_train
+data_full <- sas_iris
+model_parameter <- as.factor(Species) ~ Sepal_Length + Sepal_Width + Petal_Length + Petal_Width 
+
+# RandomForest
+dm_model <- randomForest(model_parameter, ntree=100, mtry=4, data=data_train, importance=TRUE)
+
+# Score
+pred <- predict(dm_model, data_full, type="prob")
+dm_scoreddf <- data.frame(pred)
+colnames(dm_scoreddf) <- c("P_Speciessetosa", "P_Speciesversic", "P_Speciesvirgin")
 
 
 
