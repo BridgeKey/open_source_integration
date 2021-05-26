@@ -41,7 +41,13 @@ Petals <- ggplot(sas_iris, aes(x = Petal_Length, y = Petal_Width, color = irisCl
   scale_fill_manual(values=c(paste(my_pal, "66", sep = ""))) +
   ggtitle("Petal Dimensions by Cluster") +
   theme(legend.position = "none")
-plot_grid(Sepals, Petals, labels = "", align = "h")
+Combined <- plot_grid(Sepals, Petals, labels = "", align = "h")
+Combined
+
+png("clusterPlot.png")
+plot(Combined)
+dev.off()
+
 
 sas_iris$Rcluster <- irisCluster$cluster
 
