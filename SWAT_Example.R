@@ -5,7 +5,7 @@ library(caret)
 ################
 ### SWAT Example
 #Connect to the CAS Session
-s <- CAS(hostname = "http://10.96.10.103/", 
+s <- CAS(hostname = "http://10.96.11.102//", 
          port = 8777, 
          username = "sasdemo", 
          password = "Orion123")
