@@ -50,6 +50,7 @@ dev.off()
 
 
 sas_iris$Rcluster <- irisCluster$cluster
+sas_iris$R_RunTime <- Sys.time()
 
 # Save the results to the SAS Server
 cas.table.dropTable(s, name = "iris_from_r",
