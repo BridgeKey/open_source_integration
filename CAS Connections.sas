@@ -11,3 +11,11 @@ libname myCasLib cas caslib= "open_source_integration";
 data mycaslib.iris (promote=YES);
 	set sashelp.iris;
 run;
+
+/* Saves table to the CAS Global Scope (saving it as an hdat) then load to In-Memory*/
+proc casutil incaslib="open_source_integration";
+	DROPTABLE casdata = "iris" incaslib="open_source_integration" quiet; 
+	SAVE casdata="iris.sashdat" outcaslib = "open_source_integration" replace;
+	LOAD casdata="iris.sashdat" incaslib = "open_source_integration" 
+		outcaslib="open_source_integration" casout = "iris" promote;
+quit;
