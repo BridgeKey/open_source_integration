@@ -28,7 +28,7 @@ run;
 
 proc iml;
 submit / r;
-source('/home/sasdemo/Health/open_source_integration/SWAT_Example_POC.R')
+source('/data/fedhealth/SPyRG/R/R_Ops.R')
 endsubmit;
 quit;
 

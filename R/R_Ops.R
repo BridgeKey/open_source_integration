@@ -13,12 +13,12 @@ s <- CAS(hostname = "http://10.96.11.102/",
 #Pull data in from SAS Server for R operations
 sas_iris <- data.frame(
   to.casDataFrame(
-    defCasTable(s, caslib = " open_source_integration",tablename = "Iris")))
+    defCasTable(s, caslib = "open_source_integration",tablename = "Iris")))
 
 ################################################
 ### Run Iris Classification on Data using R code
 # K-Means Cluster
-irisCluster <- kmeans(sas_iris[,1:4], centers=3, nstart = 20)
+irisCluster <- kmeans(sas_iris[,2:5], centers=3, nstart = 20)
 irisCluster$cluster <- as.factor(irisCluster$cluster)
 
 # Plot in GGplot2
@@ -50,6 +50,6 @@ sas_iris$R_RunTime <- Sys.time()
 
 # Save the results to the SAS Server
 cas.table.dropTable(s, name = "iris_from_r",
-                    caslib = "open_source_iris",
+                    caslib = "open_source_integration",
                     quiet = T)
-cas.upload.frame(s, sas_iris, casOut=list(caslib="open_source_iris", name="iris_from_r", promote="true"))
+cas.upload.frame(s, sas_iris, casOut=list(caslib="open_source_integration", name="iris_from_r", promote="true"))

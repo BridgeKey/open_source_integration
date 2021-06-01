@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[9]:
+# In[7]:
 
 
 def runPythoncode():
@@ -11,8 +11,8 @@ def runPythoncode():
     from datetime import datetime
 
     s = swat.CAS('localhost', 5570, 'sasdemo', 'Orion123')
-
-    sas_iris = pandas.DataFrame(s.table.fetch(table={"caslib":"open_source_integration", "name":"iris"})["Fetch"])
+    fetch_opts = dict(maxrows=100000000, to=1000000)
+    sas_iris = pandas.DataFrame(s.table.fetch(table={"caslib":"open_source_integration", "name":"iris"}, **fetch_opts)["Fetch"])
 
     cols = sas_iris.columns
     print(cols)
@@ -36,10 +36,4 @@ def runPythoncode():
                     casout=dict(caslib = "open_source_integration",
                                 name = "iris_from_python",
                                 promote = 'true'))
-
-
-# In[ ]:
-
-
-
 
