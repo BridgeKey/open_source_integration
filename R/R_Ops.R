@@ -1,6 +1,7 @@
 library(swat)
 library(ggplot2)
 library(cowplot)
+currentwd <- getwd()
 
 ################
 ### SWAT Example
@@ -40,9 +41,12 @@ Petals <- ggplot(sas_iris, aes(x = PetalLength, y = PetalWidth, color = irisClus
 Combined <- plot_grid(Sepals, Petals, labels = "", align = "h")
 Combined
 
+# Save file
+setwd("/data/fedhealth/SPyRG/R")
 png("clusterPlot.png")
 plot(Combined)
 dev.off()
+setwd(currentwd)
 
 
 sas_iris$Rcluster <- irisCluster$cluster
