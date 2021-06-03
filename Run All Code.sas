@@ -27,13 +27,18 @@ data _null_;
    put result=;
 run;
 
+
 /********************/
 /* Run the R Script */
 
+%let ParameterForR = 4;
+
 proc iml;
-submit / r;
+ClusterNumber = %trim(&ParameterForR.);
+submit ClusterNumber / r;
 source('/data/fedhealth/SPyRG/R/R_Ops.R')
-runRCode()
+runRCode(clusters = &ClusterNumber)
 endsubmit;
 quit;
+
 

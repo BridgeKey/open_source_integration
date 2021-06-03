@@ -4,7 +4,7 @@
 # In[7]:
 
 
-def runPythoncode():
+def runPythonCode():
     "Output: MyOutPutKey"
     import swat
     import pandas

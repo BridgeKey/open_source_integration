@@ -25,7 +25,7 @@ irisCluster <- kmeans(sas_iris[,2:5], centers=clusters, nstart = 20)
 irisCluster$cluster <- as.factor(irisCluster$cluster)
 
 # Plot in GGplot2
-my_pal <- RColorBrewer::brewer.pal(n=3, name = "Dark2")
+my_pal <- RColorBrewer::brewer.pal(n=clusters, name = "Dark2")
 Sepals <- ggplot(sas_iris, aes(x = SepalLength, y = SepalWidth, color = irisCluster$cluster, fill = irisCluster$cluster)) + 
   geom_jitter(shape = 21, size = 4) +
   theme_classic() +
