@@ -1,3 +1,5 @@
+runRCode <- function(clusters = 3){
+
 library(swat)
 library(ggplot2)
 library(cowplot)
@@ -19,7 +21,7 @@ sas_iris <- data.frame(
 ################################################
 ### Run Iris Classification on Data using R code
 # K-Means Cluster
-irisCluster <- kmeans(sas_iris[,2:5], centers=3, nstart = 20)
+irisCluster <- kmeans(sas_iris[,2:5], centers=clusters, nstart = 20)
 irisCluster$cluster <- as.factor(irisCluster$cluster)
 
 # Plot in GGplot2
@@ -53,7 +55,8 @@ sas_iris$Rcluster <- irisCluster$cluster
 sas_iris$R_RunTime <- Sys.time()
 
 # Save the results to the SAS Server
-cas.table.dropTable(s, name = "iris_from_r",
+quiet <- cas.table.dropTable(s, name = "iris_from_r",
                     caslib = "open_source_integration",
                     quiet = T)
-cas.upload.frame(s, sas_iris, casOut=list(caslib="open_source_integration", name="iris_from_r", promote="true"))
+quiet <- cas.upload.frame(s, sas_iris, casOut=list(caslib="open_source_integration", name="iris_from_r", promote="true"))
+}
